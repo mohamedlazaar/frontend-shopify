@@ -34,19 +34,36 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Critical CSS Inline - Prevents FOUC -->
+    <style>
+        /* Critical above-the-fold styles */
+        *{box-sizing:border-box}
+        body{margin:0;background:#000;color:#fff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+        .bg-black{background-color:#000!important}
+        .text-white{color:#fff!important}
+        .text-green{color:#10b981!important}
+        nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);border-bottom:1px solid rgba(16,185,129,.2);padding:0}
+        h1{font-weight:900;line-height:1.1;margin:0}
+        .bg-green{background-color:#10b981!important}
+        .text-black{color:#000!important}
+        /* Prevent layout shift */
+        img{max-width:100%;height:auto;display:block}
+    </style>
+    
+    <!-- Load Tailwind asynchronously to prevent render blocking -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'green': '#10b981',
-                        'green-dark': '#059669',
-                    }
-                }
-            }
-        }
+        (function() {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.tailwindcss.com';
+            script.async = true;
+            document.head.appendChild(script);
+        })();
     </script>
+    <!-- Non-critical styles and animations -->
     <style>
         html {
             scroll-behavior: smooth;
@@ -57,6 +74,7 @@
         }
         .float-animation {
             animation: float 6s ease-in-out infinite;
+            will-change: transform;
         }
         .diagonal-bg {
             clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
@@ -64,7 +82,40 @@
         .diagonal-bg-reverse {
             clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
         }
+        /* Performance optimizations */
+        .group-hover\:scale-110 {
+            will-change: transform;
+        }
+        img {
+            content-visibility: auto;
+        }
     </style>
+    
+    <!-- Tailwind Config - Apply when Tailwind loads -->
+    <script>
+        function initTailwind() {
+            if (typeof tailwind !== 'undefined') {
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors: {
+                                'green': '#10b981',
+                                'green-dark': '#059669',
+                            }
+                        }
+                    }
+                };
+            } else {
+                setTimeout(initTailwind, 50);
+            }
+        }
+        // Try to initialize immediately or wait for load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTailwind);
+        } else {
+            initTailwind();
+        }
+    </script>
 </head>
 <body class="bg-black text-white">
     <!-- Navigation -->
@@ -165,7 +216,7 @@
                 <!-- Project 1 -->
                 <a href="https://nikee2.myshopify.com/" target="_blank" rel="noopener noreferrer" class="group relative bg-gradient-to-br from-green/10 to-transparent rounded-xl border border-green/30 hover:border-green transition overflow-hidden block cursor-pointer">
                     <div class="aspect-video bg-gray-900 overflow-hidden">
-                        <img src="./images/nikee.png" alt="SHOLL Athletic Footwear Shopify product page customization - Custom product page with minimalist design, adjustable layouts and conversion-focused UI for athletic footwear" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy">
+                        <img src="./images/nikee.png" alt="SHOLL Athletic Footwear Shopify product page customization - Custom product page with minimalist design, adjustable layouts and conversion-focused UI for athletic footwear" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy" width="800" height="450" decoding="async">
                     </div>
                     <div class="p-6 relative z-10">
                         <div class="mb-3">
@@ -181,7 +232,7 @@
                 <!-- Project 2 -->
                 <a href="https://fasco-6719.myshopify.com/" target="_blank" rel="noopener noreferrer" class="group relative bg-gradient-to-br from-green/10 to-transparent rounded-xl border border-green/30 hover:border-green transition overflow-hidden block cursor-pointer">
                     <div class="aspect-video bg-gray-900 overflow-hidden">
-                        <img src="./images/fasco.png" alt="FASCO Fashion Store Shopify theme customization - Complete theme with custom sections, promotional banners, and multi-column product layouts for fashion retail" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy">
+                        <img src="./images/fasco.png" alt="FASCO Fashion Store Shopify theme customization - Complete theme with custom sections, promotional banners, and multi-column product layouts for fashion retail" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy" width="800" height="450" decoding="async">
                     </div>
                     <div class="p-6 relative z-10">
                         <div class="mb-3">
@@ -197,7 +248,7 @@
                 <!-- Project 3 -->
                 <a href="https://resonance-27654.myshopify.com/" target="_blank" rel="noopener noreferrer" class="group relative bg-gradient-to-br from-green/10 to-transparent rounded-xl border border-green/30 hover:border-green transition overflow-hidden block cursor-pointer">
                     <div class="aspect-video bg-gray-900 overflow-hidden">
-                        <img src="./images/resonance.png" alt="Resonance Audio Pro II Shopify landing page - Minimalist product landing page with clean design, custom typography overlays, and premium product presentation" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy">
+                        <img src="./images/resonance.png" alt="Resonance Audio Pro II Shopify landing page - Minimalist product landing page with clean design, custom typography overlays, and premium product presentation" class="w-full h-full object-contain group-hover:scale-110 transition duration-500" loading="lazy" width="800" height="450" decoding="async">
                     </div>
                     <div class="p-6 relative z-10">
                         <div class="mb-3">
