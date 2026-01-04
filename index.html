@@ -52,17 +52,14 @@
         .text-black{color:#000!important}
         /* Prevent layout shift */
         img{max-width:100%;height:auto;display:block}
+        /* Prevent font layout shift */
+        @font-face{font-family:system-ui;font-display:swap}
     </style>
     
-    <!-- Load Tailwind asynchronously to prevent render blocking -->
-    <script>
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.tailwindcss.com';
-            script.async = true;
-            document.head.appendChild(script);
-        })();
-    </script>
+    <!-- Load Tailwind CSS -->
+    <!-- Note: Tailwind CDN loads all utilities (896KB unused JS is expected) -->
+    <!-- For production, consider building a custom Tailwind CSS file to reduce bundle size -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Non-critical styles and animations -->
     <style>
         html {
@@ -91,29 +88,17 @@
         }
     </style>
     
-    <!-- Tailwind Config - Apply when Tailwind loads -->
+    <!-- Tailwind Config -->
     <script>
-        function initTailwind() {
-            if (typeof tailwind !== 'undefined') {
-                tailwind.config = {
-                    theme: {
-                        extend: {
-                            colors: {
-                                'green': '#10b981',
-                                'green-dark': '#059669',
-                            }
-                        }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'green': '#10b981',
+                        'green-dark': '#059669',
                     }
-                };
-            } else {
-                setTimeout(initTailwind, 50);
+                }
             }
-        }
-        // Try to initialize immediately or wait for load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initTailwind);
-        } else {
-            initTailwind();
         }
     </script>
 </head>
